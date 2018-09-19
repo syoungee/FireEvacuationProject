@@ -1,0 +1,32 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<!-- <http pattern="/setImg" security="none"/> <http pattern="receiveImg" 
+	security="none"/> -->
+	<http auto-config="true">
+
+	<intercept-url pattern="/" access="hasRole('ROLE_ADMIN')" />
+	<logout logout-url="/logout" invalidate-session="true"
+	logout-success-url="/login" />
+	<form-login login-page="/login" username-parameter="adminid"
+	password-parameter="adminpw" authentication-failure-url="/login?ng" />
+	
+	<intercept-url pattern="/input" access="permitAll" />
+	<intercept-url pattern="/save_data" access="permitAll" />
+	<csrf disabled="true"/>
+	
+	
+	</http>
+
+	<authentication-manager>
+	<authentication-provider>
+	<user-service>
+	<user name="admin" password="admin" authorities="ROLE_ADMIN" />
+	</user-service>
+	</authentication-provider>
+	</authentication-manager>
+</beans:beans>
